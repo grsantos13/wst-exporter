@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_outer_classname = "GrpcAddress";
+
+package br.com.gn;
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string zipCode = 3;
+  string country = 4;
+}
+
+enum OrderDirection {
+  UNKNOWN_ORDER_DIRECTION = 0;
+  ASC = 1;
+  DESC = 2;
+}
+message Pageable {
+  int32 size = 1;
+  int32 page = 2;
+  string orderBy = 3;
+  OrderDirection direction = 4;
+}
+
+enum OperationType {
+  UNKNOWN_OPERATION = 0;
+  IMPORT = 1;
+  EXPORT = 2;
+}
+
+enum Modal {
+  UNKNOWN_MODAL = 0;
+  SEA = 1;
+  ROAD = 2;
+  AIR = 3;
+}
+
+enum PaymentTerms {
+  UNKNOWN = 0;
+  E90 = 1;
+  E120 = 2;
+  E45 = 3;
+  E30 = 4;
+  E60 = 5;
+}
+
+enum Incoterm {
+  UNKNOWN_INCOTERM = 0;
+  EXW = 1;
+  FAS = 2;
+  FCA = 3;
+  FOB = 4;
+  CPT = 5;
+  CFR = 6;
+  CIP = 7;
+  CIF = 8;
+  DDP = 9;
+  DPU = 10;
+  DAT = 11;
+}

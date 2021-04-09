@@ -1,0 +1,72 @@
+syntax = "proto3";
+import "shared.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "Exporter";
+
+package br.com.gn;
+
+service ExporterService {
+  rpc create (NewExporterRequest) returns (ExporterResponse) {}
+  rpc read (ReadExporterRequest) returns (ExportersResponse) {}
+  rpc update (UpdateExporterRequest) returns (ExporterResponse) {}
+  rpc delete (DeleteExporterRequest) returns (ExporterResponse) {}
+}
+
+enum Currency {
+  UNKNOWN_CUR = 0;
+  EUR = 1;
+  USD = 2;
+  BRL = 3;
+}
+message NewExporterRequest {
+  string code = 1;
+  string name = 2;
+  PaymentTerms paymentTerms = 3;
+  Address address = 4;
+  Incoterm incoterm = 5;
+  Currency currency = 7;
+  int32 availabilityLT = 8;
+  int32 departureLT = 9;
+  int32 arrivalLT = 10;
+  int32 totalLT = 11;
+}
+
+message ReadExporterRequest{
+  string name = 1;
+}
+
+message ExportersResponse {
+  repeated ExporterResponse exporters = 1;
+}
+
+message UpdateExporterRequest {
+  string id = 1;
+  string name = 2;
+  PaymentTerms paymentTerms = 3;
+  Address address = 4;
+  Incoterm incoterm = 5;
+  Currency currency = 6;
+  int32 availabilityLT = 7;
+  int32 departureLT = 8;
+  int32 arrivalLT = 9;
+  int32 totalLT = 10;
+}
+
+message DeleteExporterRequest {
+  string id = 1;
+}
+
+message ExporterResponse {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  PaymentTerms paymentTerms = 4;
+  Address address = 5;
+  Incoterm incoterm = 6;
+  Currency currency = 7;
+  int32 availabilityLT = 8;
+  int32 departureLT = 9;
+  int32 arrivalLT = 10;
+  int32 totalLT = 11;
+}
