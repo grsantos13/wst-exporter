@@ -3,16 +3,27 @@ micronaut:
     name: wstExporter
 datasources:
   default:
-    url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
-    schema-generate: CREATE_DROP
-    dialect: H2
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+    url: ${DB_URL:`jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE`}
+    driverClassName: ${DB_DRIVER:`org.h2.Driver`}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:''}
+    schema-generate: ${DB_SCHEMA_GENERATE:CREATE_DROP}
+    dialect: ${DB_DIALECT:H2}
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl.auto: ${DB_AUTO_DDL:update}
+        show_sql: ${DB_SHOW_SQL:true}
+        format_sql: ${DB_FORMAT_SQL:true}
+
+kafka:
+  bootstrap:
+    servers: ${KAFKA_HOST:localhost:9092}
 
 grpc:
   server:
-    port: 50052
+    port: ${GRPC_PORT:50052}
     keep-alive-time: 3h
     max-inbound-message-size: 1024
