@@ -1,5 +1,8 @@
 package br.com.gn.exporter
 
+import br.com.gn.ReadExporterRequest
+import br.com.gn.ReadExporterRequest.FilterCase.CODE
+import br.com.gn.ReadExporterRequest.FilterCase.NAME
 import br.com.gn.exporter.register.Register
 import br.com.gn.shared.exception.ObjectAlreadyExistsException
 import br.com.gn.shared.exception.ObjectNotFoundException
@@ -36,10 +39,19 @@ class ExporterService(
     }
 
     @Transactional
-    fun read(name: String): List<Exporter> {
-        return when {
-            name.isNullOrBlank() -> repository.findAll()
-            else -> repository.findByName(name)
+    fun read(request: ReadExporterRequest): List<Exporter> {
+        this.validateReadExporterRequest(request)
+        return when (request.filterCase) {
+            CODE -> repository.findByCode(request.code)
+            NAME -> repository.findByName(request.name)
+            else -> repository.findAll()
+        }
+    }
+
+    private fun validateReadExporterRequest(request: ReadExporterRequest) {
+        when (request.filterCase) {
+            CODE -> if (request.code.isNullOrBlank()) throw IllegalArgumentException("Code must be informed")
+            NAME -> if (request.name.isNullOrBlank()) throw IllegalArgumentException("Name must be informed")
         }
     }
 

@@ -8,4 +8,5 @@ import java.util.*
 interface ExporterRepository : JpaRepository<Exporter, UUID> {
     fun existsByCode(code: String): Boolean
     fun findByName(name: String): List<Exporter>
+    fun findByCode(code: String): List<Exporter>
 }

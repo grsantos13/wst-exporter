@@ -37,7 +37,10 @@ message NewExporterRequest {
 }
 
 message ReadExporterRequest{
-  string name = 1;
+  oneof filter {
+    string name = 1;
+    string code = 2;
+  }
 }
 
 message ExportersResponse {

@@ -135,6 +135,16 @@ internal class ExporterEndpointTest(
     }
 
     @Test
+    fun `should read by code`() {
+        repository.save(createExporter())
+        repository.save(createExporter(name = "NotFound", code = "09876543"))
+
+        val response = grpcClient.read(ReadExporterRequest.newBuilder().setCode("09876543").build())
+
+        assertEquals(1, response.exportersList.size)
+    }
+
+    @Test
     fun `should read all`() {
         repository.save(createExporter())
         repository.save(createExporter("0987654"))
@@ -142,6 +152,32 @@ internal class ExporterEndpointTest(
         val response = grpcClient.read(ReadExporterRequest.newBuilder().build())
 
         assertEquals(2, response.exportersList.size)
+    }
+
+    @Test
+    fun `should not read by invalid name`() {
+        repository.save(createExporter())
+        repository.save(createExporter("0987654"))
+
+        val exception = assertThrows<StatusRuntimeException> {
+            grpcClient.read(ReadExporterRequest.newBuilder().setName("").build())
+        }
+
+        assertEquals(Status.INVALID_ARGUMENT.code, exception.status.code)
+        assertEquals("Name must be informed", exception.status.description)
+    }
+
+    @Test
+    fun `should not read by invalid code`() {
+        repository.save(createExporter())
+        repository.save(createExporter("0987654"))
+
+        val exception = assertThrows<StatusRuntimeException> {
+            grpcClient.read(ReadExporterRequest.newBuilder().setCode("").build())
+        }
+
+        assertEquals(Status.INVALID_ARGUMENT.code, exception.status.code)
+        assertEquals("Code must be informed", exception.status.description)
     }
 
     @Test

@@ -24,7 +24,7 @@ class ExporterEndpoint(
 
     @Transactional
     override fun read(request: ReadExporterRequest, responseObserver: StreamObserver<ExportersResponse>) {
-        val responseList = service.read(request.name)
+        val responseList = service.read(request)
             .map { it.toGrpcExporterResponse() }
 
         val response = ExportersResponse.newBuilder()
