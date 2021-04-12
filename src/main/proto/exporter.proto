@@ -13,6 +13,10 @@ service ExporterService {
   rpc delete (DeleteExporterRequest) returns (ExporterResponse) {}
 }
 
+service ExporterAwaitingRegistrationService{
+  rpc read (ExporterAwaitingRegistrationRequest) returns (ExportersAwaitingRegistrationResponse) {}
+}
+
 enum Currency {
   UNKNOWN_CUR = 0;
   EUR = 1;
@@ -69,4 +73,15 @@ message ExporterResponse {
   int32 departureLT = 9;
   int32 arrivalLT = 10;
   int32 totalLT = 11;
+}
+
+message ExporterAwaitingRegistrationRequest {}
+
+message ExportersAwaitingRegistrationResponse{
+  repeated ExporterAwaitingRegistrationResponse exporters = 1;
+
+  message ExporterAwaitingRegistrationResponse {
+    string code = 1;
+    string name = 2;
+  }
 }
